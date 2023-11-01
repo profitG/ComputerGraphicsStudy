@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style type="text/css">
+            canvas{background: blue;}
+        </style>
+        
+        <script id="vertex-shader" type="x-shader/x-vertex">
+            attribute vec4 vPosition;
+            attribute vec4 vColor;
+            varying vec4 fColor;
+            
+            uniform mat4 modelView;
+
+            void main(){
+                gl_Position = modelView * vPosition;
+                fColor = vColor;
+            }
+        </script>
+
+        <script id="fragment-shader" type="x-shader/x-fragment">
+            precision mediump float;
+            varying vec4 fColor;
+
+            void main(){
+                gl_FragColor = fColor;
+            }
+        </script>
+        <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+        <script type="text/javascript" src="../Common/MV.js"></script>
+        <script type="text/javascript" src="../Common/initShaders.js"></script>
+        <script type="text/javascript" src="./lookAt_ex.js"></script>
+    </head>
+    <body>
+        ID: 201937453 NAME: 편서희
+        <p></p>
+        <button id="Button1">Increse R</button>
+        <button id="Button2">Decrease R</button>
+        <p></p>
+        <button id="Button3">Increse theta</button>
+        <button id="Button4">Decrese theta</button>
+
+        <button id="Button5">Increse phi</button>
+        <button id="Button6">Decrese phi</button>
+        <p></p>
+        <canvas id="gl-canvas" width="512" height="512">
+            Oops..
+        </canvas>
+    </body>
+</html>

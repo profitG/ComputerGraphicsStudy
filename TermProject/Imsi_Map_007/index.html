@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="./main.css">
+    </head>
+    <body>    
+        <div id="root-window">
+            <div id="render-target"></div>
+            <div id="ui-toolbar">
+                <button id="button-npc" class="ui-button" onclick="setActiveTool(event,'NPC')"> NPC </button>
+                <button id='button-road' class="ui-button" onclick="setActiveTool(event,'road')"> Road </button>
+                <button id="button-building" class="ui-button" onclick="setActiveTool(event,'building')"> Building </button> 
+                <button id="button-house" class="ui-button" onclick="setActiveTool(event,'house')"> House </button>
+                <button id="button-station" class="ui-button" onclick="setActiveTool(event,'station')"> Station </button>
+                <button id='button-remove' class="ui-button" onclick="setActiveTool(event,'remove')"> Remove </button>
+                <button id="button-start" class="ui-button" onclick="setActiveTool(event,'start')"> Start </button>
+                <button id="button-stop" class="ui-button" onclick="setActiveTool(event,'stop')"> Stop </button>
+                <button id="pause-bgm">음악 일시정지</button>
+            </div>
+        </div>
+        <div id="button-container">
+            <button id="left-button"><img src="./Model/Icons/blue_previous.png" height="90px"></button>
+            <button id="right-button"><img src="./Model/Icons/blue_next.png" height="90px"></button>
+        </div>
+        <button id="start-button"><img src="./Model/Icons/start.png" height="100px"></button>
+        <div id="info"></div>
+        <audio
+            autoplay loop
+            id="bgm"
+            style="display: none"
+            src="./Audio/RazBurg_SunnyDays.mp3" >
+            브라우저가 audio 태그를 지원하지 않을 때 표시되는 문장
+        </audio>
+        
+
+        <script type="module">
+            import { createScene } from './src/scene.js';
+            import { createCity } from './src/city.js';
+            
+            let selectedControl = document.getElementById('button-road');
+
+            window.onload = () => {
+                const city = createCity(30);
+                const scene = createScene();  
+            
+                scene.initialize(city);
+                scene.start();
+
+                window.setActiveTool = (event, toolId) => {
+                    if (selectedControl) {
+                        selectedControl.classList.remove('selected');
+                    }
+                    selectedControl = event.target;
+                    selectedControl.classList.add('selected');
+
+                    scene.setActiveToolId(scene, toolId, city.size);
+                }
+            
+                window.scene = scene;
+                document.addEventListener('mousedown', scene.onMouseDown, false);
+                document.addEventListener('mouseup', scene.onMouseUp, false);
+                document.addEventListener('mousemove', scene.onMouseMove, false);
+                document.addEventListener('contextmenu', (event) => event.preventDefault(), false);
+                scene.start();                
+            }
+            
+        </script>
+    </body>
+</html>

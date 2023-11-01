@@ -3,7 +3,7 @@ import { OrbitControls } from "../examples/jsm/controls/OrbitControls.js"
 import { GLTFLoader } from "../examples/jsm/loaders/GLTFLoader.js"
 import Stats from "../examples/jsm/libs/stats.module.js";
 
-class App {
+class NPC {
     constructor() {
         const divContainer = document.querySelector("#webgl-container");
         this._divContainer = divContainer;
@@ -256,6 +256,7 @@ class App {
     }
 
     render(time) {
+        console.log("time먼데:" + time);
         this._renderer.render(this._scene, this._camera);   
         this.update(time);
 
@@ -274,5 +275,5 @@ class App {
 }
 
 window.onload = function () {
-    new App();
+    new NPC();
 }
