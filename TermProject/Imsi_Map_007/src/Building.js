@@ -1,13 +1,13 @@
 // Building.js
-
+import * as THREE from '../../build/three.module.js';
 import { GLTFLoader } from '../../examples/jsm/loaders/GLTFLoader.js';
 
 // 빌딩 모델의 경로와 크기 정보
 const buildingModels = [
-    { path: './Model/apartment_building_-_3d_model/scene.gltf', scale: 0.005 },
+    //{ path: './Model/apartment_building_-_3d_model/scene.gltf', scale: 0.005 },
     { path: './Model/low_poly_buidling/scene.gltf', scale: 0.45 },
-    { path: './Model/city_police_station/scene.gltf', scale: 0.3 },
-    { path: './Model/generic_business_building/scene.gltf', scale: 0.006 },
+    //{ path: './Model/city_police_station/scene.gltf', scale: 0.3 },
+    //{ path: './Model/generic_business_building/scene.gltf', scale: 0.006 },
 ];
 
 export function createBuilding(scene, x, y, buildingList) {
@@ -32,7 +32,11 @@ export function createBuilding(scene, x, y, buildingList) {
 
     loader.load(selectedModel.path, (gltf) => {
         buildingMesh = gltf.scene;
-
+        buildingMesh.traverse(child => {
+            if(child instanceof THREE.Mesh){
+                child.castShadow = true;
+            }
+        });
         // 빌딩 메쉬의 위치, 회전, 크기 설정
         buildingMesh.rotation.x = - Math.PI / 180;
         buildingMesh.scale.set(selectedModel.scale, selectedModel.scale, selectedModel.scale);

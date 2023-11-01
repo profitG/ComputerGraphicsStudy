@@ -20,6 +20,11 @@ export class Train {
         const loadModel = new Promise((resolve) => {
             loader.load('./Model/nyct_r62r62a_subway_car/scene.gltf', (gltf) => {
                 const trainModel = gltf.scene;
+                trainModel.traverse(child => {
+                    if(child instanceof THREE.Mesh){
+                        child.castShadow = true;
+                    }
+                });
                 trainModel.rotation.x = Math.PI / 180;
                 trainModel.rotation.y = Math.PI / 2;
                 trainModel.scale.set(0.1, 0.1, 0.1);

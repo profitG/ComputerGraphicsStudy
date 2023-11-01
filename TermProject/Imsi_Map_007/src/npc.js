@@ -34,6 +34,7 @@ export class NPC {
             this._model = model;
             console.log(model.scale);
             model.scale.set(50, 50, 50);
+            model.position.set(3, 0, 10);
 
             model.traverse(child => {
                 if(child instanceof THREE.Mesh){
@@ -92,11 +93,11 @@ export class NPC {
             if(this._pressedKeys["shift"]){
                 console.log("shift");
                 this._currentAnimationAction = this._animationMap["Armature|Run"]; // Run
-                this._speed = 30;
+                this._speed = 10;
             }else{
                 console.log("walk");
                 this._currentAnimationAction = this._animationMap["Armature|Walk"]; // Walk
-                this._speed = 12;
+                this._speed = 5;
             }
         }else{
             this._currentAnimationAction = this._animationMap["Armature|Idle"] // Idle
@@ -188,7 +189,7 @@ export class NPC {
 
     changeMesh(modelIndex){
         console.log("실행되니?");
-        this._modelIndex = (modelIndex) % this._meshArray.length;
+        this._modelIndex = (modelIndex + this._meshArray.length) % this._meshArray.length;
         window.cancelAnimationFrame(this._AnimRequestFrame);
         if(this._scene){
             this._scene.remove(this._model);

@@ -26,6 +26,7 @@ export function createCity(size) {
         metalness: 0.1, // 금속적인 정도
     });
     const cityMesh = new THREE.Mesh(geometry, material);
+    cityMesh.receiveShadow = true;
     cityMesh.rotateX(-Math.PI / 2); // 평면을 바닥으로 향하도록 회전
 
 

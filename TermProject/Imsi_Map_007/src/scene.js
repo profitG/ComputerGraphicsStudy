@@ -20,9 +20,9 @@ const buildingList = [];
 const HouseList = [];
 const StationList = [];
 var myCharacter;
-var cameraPosition = new THREE.Vector3(0, 4, 12);
+var cameraPosition = new THREE.Vector3(-2, 4, 10);
 var targetPosition = new THREE.Vector3(-17, 12, 3); // 최종 목표 카메라 위치
-var animationDuration = 2000; // 이동 애니메이션의 지속 시간 (밀리초)
+var animationDuration = 3000; // 이동 애니메이션의 지속 시간 (밀리초)
 var index = 0;
 var start = false;
 
@@ -34,6 +34,8 @@ export function createScene() {
     // 렌더러 생성 및 설정
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.VSMShadowMap;
     document.getElementById('render-target').appendChild(renderer.domElement);
 
     var { 
@@ -49,9 +51,11 @@ export function createScene() {
         const cityInfo = [];
 
         for (let i = 0; i < cityCount; i++) {
-            const offsetX = i * citySize; // 각 도시의 X 오프셋 조절
+            const offsetX = i * citySize * 1.5; // 각 도시의 X 오프셋 조절
             const cityObject = createCityObject(citySize);          
             cityObject.mesh.position.x = offsetX;
+            createStation(scene, offsetX, 0, StationList);
+
 
             console.log(cityObject);
 
@@ -65,7 +69,17 @@ export function createScene() {
             cityInfo.push({
                 name: `City ${i + 1}`,
                 population: Math.floor(Math.random() * 1000000),
+                x : cityObject.mesh.position.x,
+                z : cityObject.mesh.position.z,
+                index : i
+
             });
+            const Xlist = [10, -5, -8];
+            const Ylist = [13, -12, 12];
+            for(let j=0; j<3; j++){
+                createBuilding(scene, offsetX + Xlist[j], Ylist[j], buildingList, cityInfo[i]);
+            }
+
 
             console.log(cityInfo);
 
@@ -75,8 +89,7 @@ export function createScene() {
         }
     
         myCharacter = new NPC(scene, renderer, camera);
-        camera.position.set(0.0, 4.0, 12.0);
-        camera.lookAt(0.0, 0.0, 0.0);
+        camera.position.set(-2, 4, 10);
 
         scene.background = new THREE.Color(0xffdab9);
     
@@ -91,13 +104,28 @@ export function createScene() {
     const directionalLight1 = new THREE.DirectionalLight(0xffcc00, 0.6);
     directionalLight1.position.set(0, 1, 0);
 
-    const directionalLight2 = new THREE.DirectionalLight(0x00ccff, 0.6);
-    directionalLight2.position.set(1, 1, 0);
+    const shadowLight = new THREE.DirectionalLight(0xffffff, 1);
+    shadowLight.position.set(200, 200, 200);
+    shadowLight.target.position.set(0, 0, 0);
+
+    shadowLight.castShadow = true;
+    shadowLight.shadow.mapSize.width = 1024;
+    shadowLight.shadow.mapSize.height = 1024;
+    shadowLight.shadow.camera.top = 30;
+    shadowLight.shadow.camera.right = 90;
+    shadowLight.shadow.camera.bottom = -60;
+    shadowLight.shadow.camera.left = -30;
+    shadowLight.shadow.camera.near = 100;
+    shadowLight.shadow.camera.far = 500;
+    shadowLight.shadow.radius = 5;
+    const shadowCameraHelper = new THREE.CameraHelper(shadowLight.shadow.camera);
+    scene.add(shadowCameraHelper);
 
     const directionalLight3 = new THREE.DirectionalLight(0xff00cc, 0.6);
     directionalLight3.position.set(0, 1, 0);
+    
 
-    scene.add(ambientLight, directionalLight1, directionalLight2, directionalLight3);
+    scene.add(ambientLight, directionalLight1, shadowLight, shadowLight.target, directionalLight3);
     }
 
     function updateInfoWindow(newCityInfo) {
@@ -312,13 +340,9 @@ export function createScene() {
         console.log("멈춰");
         const bgm = document.getElementById('bgm');
         if (bgm.paused) {
-            // 노래가 일시 중지된 경우, 다시 재생
             bgm.play();
-            pauseButton.textContent = "일시 중지";
         } else {
-            // 노래가 재생 중인 경우, 일시 중지
             bgm.pause();
-            pauseButton.textContent = "재생";
         }
     }
 
@@ -327,6 +351,8 @@ export function createScene() {
         var startTimestamp = null;
 
         function animate(timestamp) {
+            console.log(timestamp);
+            console.log(camera.position);
             if (!startTimestamp) startTimestamp = timestamp;
 
             var progress = (timestamp - startTimestamp) / animationDuration;
@@ -334,9 +360,9 @@ export function createScene() {
             if (progress < 1) {
                 // 이동 중인 경우
                 camera.position.lerpVectors(cameraPosition, targetPosition, progress);
-                camera.lookAt(0, 0, 0);
                 requestAnimationFrame(animate);
             } else {
+                console.log("설마");
                 // 애니메이션 완료
                 camera.position.copy(targetPosition);
             }

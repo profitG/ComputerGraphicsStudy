@@ -33,7 +33,7 @@ export function createStation(scene, x, y, StationList) {
     scene.add(ConnectionLine);
 
     const modelPaths = [
-        './Model/minecraft_gare__train_station/scene.gltf',
+        './Model/low_poly_style_subway_station_section/scene.gltf',
         // Add more model paths as needed
     ];
 
@@ -49,9 +49,14 @@ export function createStation(scene, x, y, StationList) {
             (gltf) => {
                 // Model loaded callback
                 const model = gltf.scene;
-                model.scale.set(3.5, 3, 3.5);
+                model.traverse(child => {
+                    if(child instanceof THREE.Mesh){
+                        child.castShadow = true;
+                    }
+                });
+                model.scale.set(1, 1, 1);
                 model.rotation.x = Math.PI / 180 ;
-                model.rotation.y = Math.PI;
+                model.rotation.y = (Math.PI * -90) / 180;
                 model.position.set(roundX,0.5,roundY);
                 models.push(model);
                 scene.add(model);

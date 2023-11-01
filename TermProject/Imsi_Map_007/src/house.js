@@ -3,7 +3,7 @@ import { GLTFLoader } from '../../examples/jsm/loaders/GLTFLoader.js';
 // 하우스 모델의 경로와 크기 정보
 const houseModels = [
     { path: './Model/low_poly_building1/scene.gltf', scale: 0.2 },
-    { path: './Model/residential_building_with_parking_lot/scene.gltf', scale: 0.001 },
+    //{ path: './Model/residential_building_with_parking_lot/scene.gltf', scale: 0.001 },
 ];
 
 export function createHouse(scene, x, y, HouseList) {
@@ -28,6 +28,11 @@ export function createHouse(scene, x, y, HouseList) {
 
     loader.load(selectedModel.path, (gltf) => {
         houseMesh = gltf.scene;
+        houseMesh.traverse(child => {
+            if(child instanceof THREE.Mesh){
+                child.castShadow = true;
+            }
+        });
 
         // 하우스 메쉬의 위치, 회전, 크기 설정
         houseMesh.rotation.x = Math.PI / 180;
