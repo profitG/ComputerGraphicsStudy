@@ -3,7 +3,7 @@
 import * as THREE from '../../build/three.module.js';
 import { GLTFLoader } from '../../examples/jsm/loaders/GLTFLoader.js';
 import { OrbitControls } from "../../examples/jsm/controls/OrbitControls.js"
-import { createCamera } from './camera.js';
+import { cameraTo2D } from './cameraTo2D.js';
 import { NPC } from './npc.js'
 import { createCity as createCityObject } from './city.js';
 import { createRoad } from './road.js';
@@ -43,10 +43,9 @@ export function createScene() {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.VSMShadowMap;
     document.getElementById('render-target').appendChild(renderer.domElement);
-
-    var { 
-        camera
-    } = createCamera(document.getElementById('root-window'));
+    
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    //createCamera(document.getElementById('root-window'));
     //const controls = new OrbitControls(camera, document.getElementById('render-target'));
 
     // 초기화 함수
@@ -54,12 +53,19 @@ export function createScene() {
         const cityCount = 5; // 원하는 도시 개수로 조절
         const citySize = 100; // 원하는 도시 크기로 조절
         const cityInfo = [];
-        
+        const Xlist = [20, -10, -19];
+        const Ylist = [13, -20, 18];
         for (let i = 0; i < cityCount; i++) {
             for (let j = 0; j < cityCount; j++) {
                 const offsetX = i * citySize * 1.5; // 각 도시의 X 오프셋 조절
                 const offsetY = j * citySize * 1.5; // 각 도시의 Y 오프셋 조절
-                if(j < 2 && i < 2) createStation(scene, offsetX, offsetY);
+                if(j < 2 && i < 2){
+                    createStation(scene, offsetX, offsetY);
+                }
+                
+                for(let k = 0; k < 3; k++){
+                    createBuilding(scene, offsetX + Xlist[k], Ylist[k], buildingList);
+                }
                 const cityObject = createCityObject(citySize);
         
                 cityObject.mesh.position.set(offsetX, 0, offsetY);
@@ -146,6 +152,7 @@ export function createScene() {
         let selectedControl_remove = document.getElementById('button-remove');
         let selectedControl_start = document.getElementById('button-start');
         let selectedControl_stop = document.getElementById('button-stop');
+        let selectedControl_2D = document.getElementById('cameraTo2D');
         
         if (activeToolId === toolId) {
             // 이미 선택된 도구를 다시 클릭하면 선택 취소
@@ -211,6 +218,13 @@ export function createScene() {
                 flag_to_hover = 0;
                 selectedControl_Connect.classList.remove('selected');
                 document.removeEventListener('mousedown', handleConnectHover);
+            }
+            if(activeToolId == 'cameraTo2D') {
+                
+                activeToolId = null;
+                toolId = null;
+                selectedControl_2D.classList.remove('selected');
+                document.removeEventListener('mousedown', handleCameraTo2D);
             }
 
             if(activeToolId == 'start') {
@@ -287,6 +301,12 @@ export function createScene() {
             } else {
                 flag_to_hover = 0;
                 document.removeEventListener('mousemove', handleConnectHover, false);
+            }
+
+            if (activeToolId == 'cameraTo2D') {
+                document.addEventListener('mousedown', handleCameraTo2D);
+            } else {
+                document.removeEventListener('mousedown', handleCameraTo2D);
             }
 
             if (activeToolId == 'start') {
@@ -369,6 +389,12 @@ export function createScene() {
     }
 
     ///////////////////////////////////////////////
+
+    function handleCameraTo2D(event){
+        var previous_camera = camera;
+        
+        cameraTo2D(camera);
+    }
 
     function handleConnectHover(event) {
         if ( flag_to_hover === 0 ) return;

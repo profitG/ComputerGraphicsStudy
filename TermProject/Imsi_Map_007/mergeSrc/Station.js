@@ -49,10 +49,15 @@ export function createStation(scene, x, y) {
             (gltf) => {
                 // Model loaded callback
                 const model = gltf.scene;
+                model.traverse(child => {
+                    if(child instanceof THREE.Mesh){
+                        child.castShadow = true;
+                    }
+                });
                 model.scale.set(3.5, 3, 3.5);
                 model.rotation.x = Math.PI / 180 ;
                 model.rotation.y = Math.PI;
-                model.position.set(roundX,0.5,roundY);
+                model.position.set(roundX,0.1,roundY);
                 models.push(model);
                 scene.add(model);
                 

@@ -40,7 +40,7 @@ export function createBuilding(scene, x, y, buildingList) {
         // 빌딩 메쉬의 위치, 회전, 크기 설정
         buildingMesh.rotation.x = - Math.PI / 180;
         buildingMesh.scale.set(selectedModel.scale, selectedModel.scale, selectedModel.scale);
-        buildingMesh.position.set(roundX, 1, roundY);
+        buildingMesh.position.set(roundX, 0.1, roundY);
 
         // 씬에 빌딩 메쉬 추가
         scene.add(buildingMesh);
