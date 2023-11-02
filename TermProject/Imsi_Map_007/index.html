@@ -16,6 +16,7 @@
                 <button id='button-remove' class="ui-button" onclick="setActiveTool(event,'remove')"> Remove </button>
                 <button id="button-start" class="ui-button" onclick="setActiveTool(event,'start')"> Start </button>
                 <button id="button-stop" class="ui-button" onclick="setActiveTool(event,'stop')"> Stop </button>
+                <button id="button-connect" class="ui-button" onclick="setActiveTool(event,'connect')"> Connect </button>
                 <button id="pause-bgm">음악 일시정지</button>
             </div>
         </div>
@@ -35,8 +36,8 @@
         
 
         <script type="module">
-            import { createScene } from './src/scene.js';
-            import { createCity } from './src/city.js';
+            import { createScene } from './mergeSrc/scene.js';
+            import { createCity } from './mergeSrc/city.js';
             
             let selectedControl = document.getElementById('button-road');
 
