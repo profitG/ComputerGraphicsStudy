@@ -1,99 +1,212 @@
-html, body{
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
 }
 
-#root-window{
-    height: 100%;
+#root-window {
+  height: 100%;
 }
 
 #render-target {
-    position: absolute;
-    height: 100%;
+  position: absolute;
+  height: 100%;
 }
 
 #ui-toolbar {
-    position: absolute;
-    width: 100%; /* 너비를 100%로 설정하여 부모 요소에 맞춤 */
-    max-width: 150px; /* 최대 너비를 150px로 제한 */
-    height: 100vh;
-    padding: 16px;
-    background-color: #00000033;
-    display: flex; /* 플렉스 컨테이너로 설정하여 자식 요소를 가로로 정렬 */
-    flex-direction: column; /* 자식 요소를 세로로 정렬 */
+  position: absolute;
+  width: 100%; /* 너비를 100%로 설정하여 부모 요소에 맞춤 */
+  max-width: 150px; /* 최대 너비를 150px로 제한 */
+  height: 100vh;
+  padding: 16px;
+  background-color: #00000033;
+  display: flex; /* 플렉스 컨테이너로 설정하여 자식 요소를 가로로 정렬 */
+  flex-direction: column; /* 자식 요소를 세로로 정렬 */
 }
 
-#info {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #e74c3c; /* 빨간색 배경 */
-    color: #fff;
-    padding: 10px;
-    border-radius: 50px;
-    font-family: 'Poppins', sans-serif; /* Poppins 글꼴 적용 */
-    font-size: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 센치한 그림자 효과 */
-    max-width: 300px;
-    text-align: left;
-    transition: all 0.3s ease-in-out;
+#start-panel {
+  position: absolute;
+  top: 80%; /* 화면 상단에서 50% 위치에 배치 */
+  left: 50%; /* 화면 왼쪽에서 50% 위치에 배치 */
+  transform: translate(-50%, -50%); /* 수평 및 수직 정렬을 위한 변환 */
+  display: flex; /* 내부 요소들을 가로로 정렬하기 위해 Flex 사용 */
+  justify-content: center; /* 가로 중앙 정렬 */
+  align-items: center; /* 세로 중앙 정렬 */
+}
+
+#start-button {
+  position: absolute;
+  width: 150px;
+}
+.toolbar-icon {
+  width: 40px;
+  height: 30px;
+  pointer-events: none;
+  opacity: 1; /* 원하는 투명도 수준으로 조절합니다 (0이 완전 투명, 1이 완전 불투명) */
 }
 
 .ui-button {
-    background-color: #00000055;
-    border: 1px solid black;
-    color: lightgray;
-    height: 40px;
-    width: 100%;
-    font-size: 16px;
-    margin: 4px 0;
-    cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
-    transition: background-color 0.3s; /* 배경 색상 전환에 애니메이션 효과 추가 */
+  background-color: #00000055;
+  border: 1px solid black;
+  border-radius: 8px;
+  color: lightgray;
+  height: 40px;
+  width: 100%;
+  font-size: 16px;
+  margin: 4px 0;
+  cursor: pointer; /* 커서를 포인터로 변경하여 클릭 가능함을 나타냄 */
+  transition: background-color 0.3s; /* 배경 색상 전환에 애니메이션 효과 추가 */
 }
 
 .ui-button.selected {
-    background-color: #9f3d3d55;
+  background-color: #9f3d3d55;
 }
 
 .ui-button:not(.selected):hover {
-    background-color: #33333355;
+  background-color: #33333355;
 }
 
 /* 버튼 스타일 */
 #button-container {
-    position: absolute;
-    top: 40%;
-    left: 10%;
-    width: 80%;
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    z-index: 1;
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  z-index: 1;
 }
 
 #button-container button {
-    background-color: rgba(0, 0, 0, 0);
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
 }
 
-#start-button{
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0);
-    border: none;
-    bottom: 5%;
-    left: 48%;
-    display: flex;
-    z-index: 1;
-    cursor: pointer;
+.container {
+  background-color: #00000048;
+  padding: 8px;
+  margin: 16px;
+  border-radius: 16px;
+
+  box-shadow: 0 2px 0 0px #023a71;
 }
 
+#title-bar {
+  position: fixed;
+
+  top: 0;
+  left: 450px;
+  right: 450px;
+  height: 32px;
+
+  background-color: #00000048;
+  border-radius: 16px;
+  color: white;
+  padding: 8px;
+  margin: 16px;
+
+  box-shadow: 0 2px 0 0px #023a71;
+
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.title-bar-items {
+  flex: 1 1 33%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5em;
+}
+
+#population-icon {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  top: -3px;
+}
+
+#population-counter {
+  margin-left: 8px;
+}
+
+/* INFO PANEL */
+#info-panel {
+  position: fixed;
+  top: 64px;
+  right: 0px;
+  margin: 16px;
+  padding: 12px;
+  width: 300px;
+
+  background-color: #00000048;
+}
+
+.info-heading {
+  text-align: center;
+  font-size: 1em;
+  margin: 8px 0px;
+  background-color: #191a21b1;
+  box-shadow: 0 2px 0 0px #000000b0;
+  color: white;
+  border-radius: 16px;
+  padding: 4px;
+}
+
+.info-label {
+  margin-left: 12px;
+  font-size: 1em;
+  color: rgb(193, 193, 193);
+}
+
+.info-value {
+  margin-left: 4px;
+  font-size: 1.2em;
+  color: #ffffff;
+  text-align: right;
+}
+
+.info-citizen-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.info-citizen {
+  background-color: #222941a0;
+  color: white;
+  padding: 4px 16px;
+  margin: 4px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 0 0px #151820;
+}
+
+.info-citizen-name {
+  font-size: 1.1em;
+}
+
+.info-citizen-icon {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  top: 2px;
+  margin-right: 2px;
+}
+
+.info-citizen-details {
+  font-size: 1em;
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px;
+}
 
 @media screen and (max-width: 600px) {
-    #info {
-        right: 5px; /* 화면이 작을 때 오른쪽 여백 축소 */
-        max-width: none; /* 화면이 작을 때 최대 너비 제거 */
-    }
+  #info {
+    right: 5px; /* 화면이 작을 때 오른쪽 여백 축소 */
+    max-width: none; /* 화면이 작을 때 최대 너비 제거 */
+  }
 }
