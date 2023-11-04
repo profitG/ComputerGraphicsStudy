@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low Poly Buidling
+* source:	https://sketchfab.com/3d-models/low-poly-buidling-6c29878b4572415eab6b2b59225164b3
+* author:	Dandushik (https://sketchfab.com/danieljerbi910)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low Poly Buidling" (https://sketchfab.com/3d-models/low-poly-buidling-6c29878b4572415eab6b2b59225164b3) by Dandushik (https://sketchfab.com/danieljerbi910) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

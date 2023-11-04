@@ -337,7 +337,6 @@ export function createScene() {
         animateCamera();
         leftButton.style.display = "none";
         rightButton.style.display = "none";
-        startButton.style.display = "none";
         myCharacter._start = true;
       }
     }

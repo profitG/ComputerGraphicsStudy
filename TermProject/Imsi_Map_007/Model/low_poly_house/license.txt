@@ -1,11 +1,11 @@
 Model Information:
-* title:	Low poly house
-* source:	https://sketchfab.com/3d-models/low-poly-house-c79a1f358efe4b1782ae8572098a81a1
-* author:	Quarks Studios (https://sketchfab.com/QuarksStudios)
+* title:	Low Poly Building
+* source:	https://sketchfab.com/3d-models/low-poly-building-992ee80b8f8c4bdab78e18a93a463371
+* author:	Godheim (https://sketchfab.com/Godheim)
 
 Model License:
 * license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
 * requirements:	Author must be credited. Commercial use is allowed.
 
 If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
-This work is based on "Low poly house" (https://sketchfab.com/3d-models/low-poly-house-c79a1f358efe4b1782ae8572098a81a1) by Quarks Studios (https://sketchfab.com/QuarksStudios) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+This work is based on "Low Poly Building" (https://sketchfab.com/3d-models/low-poly-building-992ee80b8f8c4bdab78e18a93a463371) by Godheim (https://sketchfab.com/Godheim) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

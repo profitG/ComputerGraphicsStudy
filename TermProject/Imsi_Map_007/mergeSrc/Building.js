@@ -4,10 +4,11 @@ import { GLTFLoader } from "../../examples/jsm/loaders/GLTFLoader.js";
 
 // 빌딩 모델의 경로와 크기 정보
 const buildingModels = [
-  //{ path: './Model/apartment_building_-_3d_model/scene.gltf', scale: 0.005 },
-  { path: "./Model/low_poly_buidling/scene.gltf", scale: 0.45 },
-  //{ path: './Model/city_police_station/scene.gltf', scale: 0.3 },
-  //{ path: './Model/generic_business_building/scene.gltf', scale: 0.006 },
+  {
+    path: "./Model/low_poly_building/scene.gltf",
+    scale: 0.45,
+  },
+  { path: "./Model/city_police_station/scene.gltf", scale: 0.3 },
 ];
 
 export function createBuilding(scene, x, y, buildingList) {

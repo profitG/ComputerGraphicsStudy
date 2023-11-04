@@ -3,8 +3,14 @@ import * as THREE from "../../build/three.module.js";
 
 // 하우스 모델의 경로와 크기 정보
 const houseModels = [
-  { path: "./Model/low_poly_building1/scene.gltf", scale: 0.2 },
-  //{ path: './Model/residential_building_with_parking_lot/scene.gltf', scale: 0.001 },
+  {
+    path: "./Model/storefront_lowpoly_house/scene.gltf",
+    scale: 1.5,
+  },
+  {
+    path: "./Model/low_poly_house/scene.gltf",
+    scale: 0.2,
+  },
 ];
 
 export function createHouse(scene, x, y, HouseList) {
