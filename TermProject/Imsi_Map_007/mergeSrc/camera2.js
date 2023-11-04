@@ -142,7 +142,7 @@ export function createCamera(camera) {
         camera.position.y = cameraRadius * Math.sin(cameraElevation * DEG2RAD);
         camera.position.z = cameraRadius * Math.cos(cameraAzimuth * DEG2RAD) * Math.cos(cameraElevation * DEG2RAD);
         camera.position.add(cameraOrigin);
-        camera.lookAt(cameraOrigin);
+        camera.lookAt(250, 0, 300);
         camera.updateMatrix();
     }
 

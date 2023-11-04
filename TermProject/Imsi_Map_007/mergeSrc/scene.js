@@ -26,7 +26,7 @@ var cameraPosition = new THREE.Vector3(-2, 4, 10);
 var targetPosition = new THREE.Vector3(-17, 12, 3); // 최종 목표 카메라 위치
 var animationDuration = 3000; // 이동 애니메이션의 지속 시간 (밀리초)
 var index = 0;
-var start = false;
+var camera2D = false;
 
 let flag_to_hover = 0;
 let positon_Num = 0; // 열차정보를 담고있음
@@ -44,7 +44,7 @@ export function createScene() {
     renderer.shadowMap.type = THREE.VSMShadowMap;
     document.getElementById('render-target').appendChild(renderer.domElement);
     
-    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 3000);
     //createCamera(document.getElementById('root-window'));
     //const controls = new OrbitControls(camera, document.getElementById('render-target'));
 
@@ -57,8 +57,8 @@ export function createScene() {
         const Ylist = [13, -20, 18];
         for (let i = 0; i < cityCount; i++) {
             for (let j = 0; j < cityCount; j++) {
-                const offsetX = i * citySize * 1.5; // 각 도시의 X 오프셋 조절
-                const offsetY = j * citySize * 1.5; // 각 도시의 Y 오프셋 조절
+                const offsetX = i * citySize * 1.05; // 각 도시의 X 오프셋 조절
+                const offsetY = j * citySize * 1.05; // 각 도시의 Y 오프셋 조절
                 if(j < 2 && i < 2){
                     createStation(scene, offsetX, offsetY);
                 }
@@ -78,7 +78,11 @@ export function createScene() {
         myCharacter = new NPC(scene, renderer, camera);
         camera.position.set(-2, 4, 10);
 
-        scene.background = new THREE.Color(0xffdab9);
+        scene.background = new THREE.CubeTextureLoader().setPath("./Model/Background/").load([
+            "clouds1_east.bmp", "clouds1_west.bmp",
+            "clouds1_up.bmp", "clouds1_down.bmp",
+            "clouds1_north.bmp", "clouds1_south.bmp"
+        ])
     
         setupLights(scene);
 
@@ -91,19 +95,19 @@ export function createScene() {
     const directionalLight1 = new THREE.DirectionalLight(0xffcc00, 0.6);
     directionalLight1.position.set(0, 1, 0);
 
-    const shadowLight = new THREE.DirectionalLight(0xffffff, 1);
-    shadowLight.position.set(200, 200, 200);
+    const shadowLight = new THREE.DirectionalLight(0xf0f0f0, 3);
+    shadowLight.position.set(800, 700, 800);
     shadowLight.target.position.set(0, 0, 0);
 
     shadowLight.castShadow = true;
     shadowLight.shadow.mapSize.width = 1024;
     shadowLight.shadow.mapSize.height = 1024;
-    shadowLight.shadow.camera.top = 30;
-    shadowLight.shadow.camera.right = 90;
-    shadowLight.shadow.camera.bottom = -60;
-    shadowLight.shadow.camera.left = -30;
-    shadowLight.shadow.camera.near = 100;
-    shadowLight.shadow.camera.far = 500;
+    shadowLight.shadow.camera.top = 100;
+    shadowLight.shadow.camera.right = 350;
+    shadowLight.shadow.camera.bottom = -350;
+    shadowLight.shadow.camera.left = -350;
+    shadowLight.shadow.camera.near = 400;
+    shadowLight.shadow.camera.far = 1500;
     shadowLight.shadow.radius = 5;
     const shadowCameraHelper = new THREE.CameraHelper(shadowLight.shadow.camera);
     scene.add(shadowCameraHelper);
@@ -152,7 +156,6 @@ export function createScene() {
         let selectedControl_remove = document.getElementById('button-remove');
         let selectedControl_start = document.getElementById('button-start');
         let selectedControl_stop = document.getElementById('button-stop');
-        let selectedControl_2D = document.getElementById('cameraTo2D');
         
         if (activeToolId === toolId) {
             // 이미 선택된 도구를 다시 클릭하면 선택 취소
@@ -218,13 +221,6 @@ export function createScene() {
                 flag_to_hover = 0;
                 selectedControl_Connect.classList.remove('selected');
                 document.removeEventListener('mousedown', handleConnectHover);
-            }
-            if(activeToolId == 'cameraTo2D') {
-                
-                activeToolId = null;
-                toolId = null;
-                selectedControl_2D.classList.remove('selected');
-                document.removeEventListener('mousedown', handleCameraTo2D);
             }
 
             if(activeToolId == 'start') {
@@ -303,12 +299,6 @@ export function createScene() {
                 document.removeEventListener('mousemove', handleConnectHover, false);
             }
 
-            if (activeToolId == 'cameraTo2D') {
-                document.addEventListener('mousedown', handleCameraTo2D);
-            } else {
-                document.removeEventListener('mousedown', handleCameraTo2D);
-            }
-
             if (activeToolId == 'start') {
                 
             } else {
@@ -327,6 +317,7 @@ export function createScene() {
     let rightButton = document.getElementById("right-button");
     let startButton = document.getElementById("start-button");
     let pauseBGMButton = document.getElementById("pause-bgm");
+    let camera2DButton = document.getElementById('cameraTo2D');
 
     leftButton.onclick = function(){
         console.log("왽");
@@ -350,16 +341,6 @@ export function createScene() {
         rightButton.style.display = "none";
         startButton.style.display = "none";        
         myCharacter._start = true;
-    }
-
-    pauseBGMButton.onclick = function(){
-        console.log("멈춰");
-        const bgm = document.getElementById('bgm');
-        if (bgm.paused) {
-            bgm.play();
-        } else {
-            bgm.pause();
-        }
     }
 
     // 카메라 애니메이션 함수
@@ -388,12 +369,24 @@ export function createScene() {
         requestAnimationFrame(animate);
     }
 
-    ///////////////////////////////////////////////
+    pauseBGMButton.onclick = function(){
+        console.log("멈춰");
+        const bgm = document.getElementById('bgm');
+        if (bgm.paused) {
+            bgm.play();
+        } else {
+            bgm.pause();
+        }
+    }
 
-    function handleCameraTo2D(event){
-        var previous_camera = camera;
+    camera2DButton.onclick = function(){
         
-        cameraTo2D(camera);
+        camera2D = !camera2D;
+        myCharacter._camera2D = camera2D;
+        if(camera2D){
+            cameraTo2D(camera);
+            myCharacter._controls.target.set(200, 0, 200);
+        }
     }
 
     function handleConnectHover(event) {

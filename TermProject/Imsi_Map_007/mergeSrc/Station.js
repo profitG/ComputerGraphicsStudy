@@ -54,7 +54,7 @@ export function createStation(scene, x, y) {
                         child.castShadow = true;
                     }
                 });
-                model.scale.set(3.5, 3, 3.5);
+                model.scale.set(5, 3.5, 5);
                 model.rotation.x = Math.PI / 180 ;
                 model.rotation.y = Math.PI;
                 model.position.set(roundX,0.1,roundY);

@@ -7,6 +7,7 @@ export class NPC {
         const divContainer = document.querySelector("#render-target");
         this._divContainer = divContainer;
 
+        this._camera2D = false;
         this._scene = scene;
         this._renderer = renderer;
         this._camera = camera;
@@ -33,7 +34,7 @@ export class NPC {
             const model = gltf.scene;
             this._model = model;
             console.log(model.scale);
-            model.scale.set(50, 50, 50);
+            model.scale.set(20, 20, 20);
             model.position.set(3, 0, 10);
 
             model.traverse(child => {
@@ -68,7 +69,7 @@ export class NPC {
 
     _setupControls() {
         this._controls = new OrbitControls(this._camera, this._divContainer);
-        this._controls.target.set(0, 100, 0);
+        //this._controls.target.set(0, 100, 0);
 
         this._pressedKeys = {};
             document.addEventListener("keydown", (event) =>{
@@ -155,7 +156,7 @@ export class NPC {
                 angleCameraDirectionAxisY + this._directionOffset()
             );
 
-            this._model.quaternion.rotateTowards(rotateQuaternion, THREE.MathUtils.degToRad(5));
+            this._model.quaternion.rotateTowards(rotateQuaternion, THREE.MathUtils.degToRad(20));
 
             const walkDirection = new THREE.Vector3();
             this._camera.getWorldDirection(walkDirection);
@@ -172,11 +173,14 @@ export class NPC {
             this._camera.position.x += moveX;
             this._camera.position.z += moveZ;
 
-            this._controls.target.set(
-                this._model.position.x,
-                this._model.position.y,
-                this._model.position.z
-            );
+            if(!this._camera2D){
+                this._controls.target.set(
+                    this._model.position.x,
+                    this._model.position.y,
+                    this._model.position.z
+                );
+            }
+            
 
         }
         this._previousTime = time;
