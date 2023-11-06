@@ -6,11 +6,13 @@ import { OrbitControls } from "../../examples/jsm/controls/OrbitControls.js";
 import { cameraTo2D } from "./cameraTo2D.js";
 import { MyCharacter } from "./myCharacter.js";
 import { npc } from "./npc2.js";
+import { NewNPC } from "./newNPC.js";
 import { createCity as createCityObject } from "./city.js";
 import { createRoad } from "./road.js";
 import { createBuilding } from "./Building.js";
 import { createHouse } from "./house.js";
 import { createStation } from "./Station.js";
+import { Train } from "./train.js";
 
 /**
  * 3D 시뮬레이션의 주요 씬을 생성합니다.
@@ -21,6 +23,7 @@ const buildingList = [];
 const HouseList = [];
 const StationList = [];
 const StationList_ = [];
+const NPCList = [];
 
 var myCharacter;
 var cameraPosition = new THREE.Vector3(-2, 4, 10);
@@ -66,11 +69,24 @@ export function createScene() {
         const offsetY = j * citySize * 1 * 1.05; // 각 도시의 Y 오프셋 조절
         if (j < 2 && i < 2) {
           createStation(scene, offsetX, offsetY, StationList);
+          for (let k = 0; k < 3; k++) {
+            createBuilding(
+              scene,
+              offsetX + Xlist[k],
+              offsetY + Ylist[k],
+              buildingList
+            );
+          }
         }
 
-        for (let k = 0; k < 3; k++) {
-          createBuilding(scene, offsetX + Xlist[k], Ylist[k], buildingList);
-        }
+        // for (let k = 0; k < 2; k++) {
+        //   createBuilding(
+        //     scene,
+        //     offsetX + Xlist[k],
+        //     offsetY + Ylist[k],
+        //     buildingList
+        //   );
+        // }
         const cityObject = createCityObject(citySize);
 
         const infoContainer = document.getElementById("info-panel");
@@ -84,12 +100,12 @@ export function createScene() {
           name: `City ${i + 1}`,
           population: Math.floor(Math.random() * 1000000),
         });
-
-        console.log(cityInfo);
+        console.log(StationList);
 
         updateInfoWindow(cityInfo);
 
         cityObject.mesh.position.set(offsetX, 0, offsetY);
+        console.log(cityObject.mesh);
 
         scene.add(cityObject.mesh);
       }
@@ -187,13 +203,13 @@ export function createScene() {
     let selectedControl_building = document.getElementById("button-building");
     let selectedControl_house = document.getElementById("button-house");
     let selectedControl_station = document.getElementById("button-station");
+    let selectedControl_Connect = document.getElementById("button-connect");
     let selectedControl_remove = document.getElementById("button-remove");
     let selectedControl_start = document.getElementById("button-start");
     let selectedControl_stop = document.getElementById("button-stop");
 
     if (activeToolId === toolId) {
       // 이미 선택된 도구를 다시 클릭하면 선택 취소
-      console.log("Tool selection canceled.");
 
       if (activeToolId == "NPC") {
         activeToolId = null;
@@ -257,7 +273,6 @@ export function createScene() {
       }
     } else {
       activeToolId = toolId;
-      console.log("active" + activeToolId);
 
       if (activeToolId === "NPC") {
         // 마우스 클릭 이벤트 리스너 등록
@@ -315,7 +330,10 @@ export function createScene() {
       }
 
       if (activeToolId == "start") {
+        console.log("시작?");
+        handleGameStart();
       } else {
+        console.log("해제");
       }
 
       if (activeToolId == "stop") {
@@ -323,13 +341,11 @@ export function createScene() {
       }
 
       if (activeToolId == "gameStart") {
-        console.log("들어갔니?");
         document.getElementById("ui-toolbar").style.display = "block";
         document.getElementById("title-bar").style.display = "flex";
         document.getElementById("info-panel").style.display = "block";
         document.getElementById("info-details").style.display = "block";
         document.getElementById("start-panel").style.display = "none";
-        console.log("start");
         myCharacter._currentAnimationAction.fadeOut(0.5);
         myCharacter._currentAnimationAction =
           myCharacter._animationMap["Armature|Idle"];
@@ -348,13 +364,11 @@ export function createScene() {
   let camera2DButton = document.getElementById("cameraTo2D");
 
   leftButton.onclick = function () {
-    console.log("왽");
     index--;
     myCharacter.changeMesh(index);
   };
 
   rightButton.onclick = function () {
-    console.log("오");
     index++;
     myCharacter.changeMesh(index);
   };
@@ -406,6 +420,12 @@ export function createScene() {
       camera.lookAt(myCharacter._model.position);
     }
   };
+
+  function handleGameStart(event) {
+    console.log("실행됐다");
+    const tmp = new NewNPC(scene, camera, renderer, buildingList, StationList);
+    NPCList.push(tmp);
+  }
 
   function handleConnectHover(event) {
     if (flag_to_hover === 0) return;
@@ -466,7 +486,6 @@ export function createScene() {
         });
 
         selectedObjects.push(object);
-        console.log(selectedObjects);
 
         // 두 객체가 선택되었을 때 연결선 생성
         if (selectedObjects.length === 2) {
@@ -513,7 +532,6 @@ export function createScene() {
 
       scene.add(line);
     } else {
-      console.log("Already connected!");
     }
 
     // 연결된 객체를 저장
@@ -522,7 +540,6 @@ export function createScene() {
 
     // 선택된 객체 초기화
     selectedObjects = [];
-    console.log(connectedObjects);
     moveTrain(connectedObjects);
   }
 
@@ -595,11 +612,6 @@ export function createScene() {
       if (intersectedObject) {
         // 객체를 삭제하고 씬에서 제거
         scene.remove(intersectedObject.mesh);
-        console.log(
-          "Object removed at:",
-          intersectedObject.x,
-          intersectedObject.y
-        );
 
         // buildingList에서 해당 빌딩 제거
         const index1 = buildingList.findIndex(
@@ -624,12 +636,6 @@ export function createScene() {
         if (index3 !== -1) {
           HouseList.splice(index3, 1);
         }
-
-        console.log(
-          "Object removed at:",
-          intersectedObject.x,
-          intersectedObject.y
-        );
       }
     }
   }

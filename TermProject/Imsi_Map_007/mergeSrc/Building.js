@@ -45,7 +45,7 @@ export function createBuilding(scene, x, y, buildingList) {
       selectedModel.scale,
       selectedModel.scale
     );
-    buildingMesh.position.set(roundX, 0.1, roundY);
+    buildingMesh.position.set(roundX, 0.0001, roundY);
 
     // 씬에 빌딩 메쉬 추가
     scene.add(buildingMesh);
@@ -59,6 +59,7 @@ export function createBuilding(scene, x, y, buildingList) {
       x: roundX,
       y: roundY,
     };
+    console.log(buildingList);
     buildingList.push(buildingInfo); // 새로운 빌딩을 목록에 추가
     console.log("buildingList: ", buildingList);
     updateBuildingInfoHTML(buildingList);
