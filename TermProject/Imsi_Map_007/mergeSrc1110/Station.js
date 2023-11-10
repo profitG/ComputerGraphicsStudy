@@ -35,7 +35,7 @@ export function createStation(scene, x, y, StationList, index) {
   scene.add(ConnectionLine);
 
   const modelPaths = [
-    "./Model/minecraft_gare__trian_station/scene.gltf",
+    "./Model/minecraft_gare__train_station/scene.gltf",
     // Add more model paths as needed
   ];
 
@@ -58,7 +58,7 @@ export function createStation(scene, x, y, StationList, index) {
           }
         });
         //model.scale.set(5, 3.5, 5);
-        model.scale.set(1, 1, 1);
+        model.scale.set(3, 5, 3);
         model.rotation.x = Math.PI / 180;
         model.rotation.y = Math.PI;
         model.position.set(roundX, 0.1, roundY);

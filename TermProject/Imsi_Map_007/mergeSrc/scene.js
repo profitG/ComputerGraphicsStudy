@@ -142,7 +142,7 @@ export function createScene() {
     let sky = new Sky();
     console.log(sky.position);
     sky.position.set(100.0, 0.0, 100.0);
-    sky.scale.setScalar(500);
+    sky.scale.setScalar(50000);
     scene.add(sky);
 
     let sun = new THREE.Vector3();

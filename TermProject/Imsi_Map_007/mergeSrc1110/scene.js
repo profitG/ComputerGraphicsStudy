@@ -139,59 +139,16 @@ export function createScene() {
     myCharacter = new MyCharacter(scene, renderer, camera);
     camera.position.set(-2, 4, 10);
 
-    // scene.background = new THREE.CubeTextureLoader()
-    //   .setPath("./Model/Background/")
-    //   .load([
-    //     "clouds1_east.bmp",
-    //     "clouds1_west.bmp",
-    //     "clouds1_up.bmp",
-    //     "clouds1_down.bmp",
-    //     "clouds1_north.bmp",
-    //     "clouds1_south.bmp",
-    //   ]);
-
-    const geometry = new THREE.BoxGeometry(1000, 1000, 1000);
-    const materials = [
-      new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load(
-          "./Model/Background/clouds1_east.bmp"
-        ),
-        side: THREE.DoubleSide,
-      }),
-      new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load(
-          "./Model/Background/clouds1_west.bmp"
-        ),
-        side: THREE.DoubleSide,
-      }),
-      new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load(
-          "./Model/Background/clouds1_up.bmp"
-        ),
-        side: THREE.DoubleSide,
-      }),
-      new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load(
-          "./Model/Background/clouds1_down.bmp"
-        ),
-        side: THREE.DoubleSide,
-      }),
-      new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load(
-          "./Model/Background/clouds1_north.bmp"
-        ),
-        side: THREE.DoubleSide,
-      }),
-      new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load(
-          "./Model/Background/clouds1_south.bmp"
-        ),
-        side: THREE.DoubleSide,
-      }),
-    ];
-    skybox = new THREE.Mesh(geometry, materials);
-    console.log(skybox.material);
-    scene.add(skybox);
+    scene.background = new THREE.CubeTextureLoader()
+      .setPath("./Model/Background/")
+      .load([
+        "clouds1_east.bmp",
+        "clouds1_west.bmp",
+        "clouds1_up.bmp",
+        "clouds1_down.bmp",
+        "clouds1_north.bmp",
+        "clouds1_south.bmp",
+      ]);
 
     setupLights(scene);
 
@@ -635,7 +592,7 @@ export function createScene() {
       const intersection = intersects[0];
       const object = intersection.object;
 
-      // 빛나게 하는 코드 추가
+      //빛나게 하는 코드 추가
       if (object.userData.name === undefined) {
         object.material.emissive.set(0x808080); // 빛나게 하는 색상
       }
@@ -1273,11 +1230,6 @@ export function createScene() {
       // directionalLight의 위치 업데이트
       shadowLight.position.x = radius * Math.cos(angle);
       shadowLight.position.y = radius * Math.sin(angle);
-
-      const elapsed = clock.getElapsedTime();
-      const intensity = Math.abs(Math.sin(elapsed / 10)); // 예제에서는 사인 함수를 사용하여 변화시킴
-      skybox.material[0].opacity = intensity;
-      skybox.material[1].opacity = 1 - intensity;
     }
   }
 
