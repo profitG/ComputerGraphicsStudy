@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="./main.css" />
   </head>
@@ -15,7 +17,7 @@
         >
           <img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/npc.png"
+            src="./Model/ui_button_image/npc.png"
           />
         </button>
 
@@ -26,7 +28,7 @@
         >
           <img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/road.png"
+            src="./Model/ui_button_image/road.png"
           />
         </button>
         <button
@@ -36,7 +38,7 @@
         >
           <img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/building.png"
+            src="./Model/ui_button_image/building.png"
           />
         </button>
         <button
@@ -46,7 +48,7 @@
         >
           <img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/house.png"
+            src="./Model/ui_button_image/house.png"
           />
         </button>
         <button
@@ -56,7 +58,7 @@
         >
           <img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/station.png"
+            src="./Model/ui_button_image/station.png"
           />
         </button>
         <button
@@ -66,7 +68,7 @@
         >
           <img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/remove.png"
+            src="./Model/ui_button_image/remove.png"
           />
         </button>
         <button
@@ -76,7 +78,7 @@
         >
           <img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/start.png"
+            src="./Model/ui_button_image/start.png"
           />
         </button>
         <button
@@ -86,17 +88,35 @@
         >
           <img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/stop.png"
+            src="./Model/ui_button_image/stop.png"
           />
         </button>
         <button
-          id="button-connect"
+          id="button-connect_Line1"
           class="ui-button"
-          onclick="setActiveTool(event,'connect')"
-        >
+          onclick="setActiveTool(event,'connect_Line1')"
+        > Line1
           <img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/connect.png"
+            src="./Model/ui_button_image/connect.png"
+          />
+          <button
+          id="button-connect_Line2"
+          class="ui-button"
+          onclick="setActiveTool(event,'connect_Line2')"
+        > Line2
+          <img
+            class="toolbar-icon"
+            src="./Model/ui_button_image/connect.png"
+          />
+          <button
+          id="button-connect_Line3"
+          class="ui-button"
+          onclick="setActiveTool(event,'connect_Line3')"
+        > Line3
+          <img
+            class="toolbar-icon"
+            src="./Model/ui_button_image/connect.png"
           />
         </button>
         <button
@@ -106,13 +126,13 @@
         >
           <img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/3d.png"
+            src="./Model/ui_button_image/3d.png"
           />
         </button>
         <button id="pause-bgm" class="ui-button">
           <img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/pause_button.png"
+            src="./Model/ui_button_image/pause_button.png"
           />
         </button>
       </div>
@@ -146,7 +166,7 @@
         <span
           ><img
             class="toolbar-icon"
-            src="../../Imsi_Map_007/Model/ui_button_image/info.png"
+            src="./Model/ui_button_image/info.png"
         /></span>
       </div>
       <div id="info-details" style="display: none">
@@ -194,14 +214,14 @@
       loop
       id="bgm"
       style="display: none"
-      src="./Audio/RazBurg_SunnyDays.mp3"
+      src="../Audio/RazBurg_SunnyDays.mp3"
     >
       브라우저가 audio 태그를 지원하지 않을 때 표시되는 문장
     </audio> -->
 
     <script type="module">
-      import { createScene } from "./mergeSrc/scene.js";
-      import { createCity } from "./mergeSrc/city.js";
+      import { createScene } from "./mergeSrc1110/scene.js";
+      import { createCity } from "./mergeSrc1110/city.js";
 
       let selectedControl = document.getElementById("button-road");
 

@@ -1,7 +1,6 @@
 import * as THREE from "../../build/three.module.js";
 import { OrbitControls } from "../../examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "../../examples/jsm/loaders/GLTFLoader.js";
-import { ShadowMesh } from "../../examples/jsm/objects/ShadowMesh.js";
 
 export class MyCharacter {
   constructor(scene, renderer, camera) {
@@ -33,13 +32,12 @@ export class MyCharacter {
     new GLTFLoader().load(this._meshArray[modelIndex], (gltf) => {
       const model = gltf.scene;
       this._model = model;
-      model.scale.set(50, 50, 50);
+      model.scale.set(20, 20, 20);
       model.position.set(3, 0, 10);
 
       model.traverse((child) => {
         if (child instanceof THREE.Mesh) {
           child.castShadow = true;
-          console.log(child.material);
         }
       });
 
@@ -49,7 +47,7 @@ export class MyCharacter {
 
       animationClips.forEach((clip) => {
         const name = clip.name;
-        console.log("애님: " + name);
+        // console.log("애님: " + name);
         animationsMap[name] = mixer.clipAction(clip);
       });
 
@@ -62,8 +60,6 @@ export class MyCharacter {
       const box = new THREE.Box3().setFromObject(model);
       this._scene.add(model);
       this._model = model;
-      // this._modelShadow = new ShadowMesh(this._model);
-      // scene.add(this._modelShadow);
     });
   }
 

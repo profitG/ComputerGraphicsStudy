@@ -1,5 +1,6 @@
 import * as THREE from "../../build/three.module.js";
 import { GLTFLoader } from "../../examples/jsm/loaders/GLTFLoader.js";
+import { ShadowMesh } from "../../examples/jsm/objects/ShadowMesh.js";
 
 export class NewNPC {
   constructor(scene, camera, renderer, buildingList, stationList) {
@@ -89,6 +90,8 @@ export class NewNPC {
         }
       });
 
+      material.shadowDarkness = 0.5; // 그림자를 더 어둡게 만듭니다.
+
       const animationClips = gltf.animations; //gltf.animations는 THREE.AnimationClip[] 타입의 배열
       const mixer = new THREE.AnimationMixer(model);
       const animationsMap = {};
@@ -99,6 +102,8 @@ export class NewNPC {
       });
 
       this._scene.add(this._model);
+      // this._modelShadow = new ShadowMesh(this._model);
+      // scene.add(this._modelShadow);
 
       this._mixer = mixer; // 애니메이션 play하려면 mixer 객체를 프레임마다 업데이트 해줘야 함!
       this._animationMap = animationsMap;

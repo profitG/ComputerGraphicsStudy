@@ -3,6 +3,8 @@
 import * as THREE from "../../build/three.module.js";
 import { GLTFLoader } from "../../examples/jsm/loaders/GLTFLoader.js";
 import { OrbitControls } from "../../examples/jsm/controls/OrbitControls.js";
+import { Sky } from "../../examples/jsm/objects/Sky.js";
+import { GUI } from "../../examples/jsm/libs/lil-gui.module.min.js";
 import { cameraTo2D } from "./cameraTo2D.js";
 import { MyCharacter } from "./myCharacter.js";
 import { npc } from "./npc2.js";
@@ -34,6 +36,10 @@ var camera2D = false;
 
 let flag_to_hover = 0;
 let positon_Num = 0; // 열차정보를 담고있음
+var shadowLight;
+let angle = 0;
+let radius = 700;
+let clock;
 
 export function createScene() {
   // 씬 생성
@@ -41,24 +47,25 @@ export function createScene() {
   let activeToolId = "";
 
   // 렌더러 생성 및 설정
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMap.enabled = true;
-  renderer.shadowMap.type = THREE.VSMShadowMap;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   document.getElementById("render-target").appendChild(renderer.domElement);
 
   var camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
-    3000
+    2000000
   );
   //createCamera(document.getElementById('root-window'));
   //const controls = new OrbitControls(camera, document.getElementById('render-target'));
 
   // 초기화 함수
   function initialize() {
-    const cityCount = 5; // 원하는 도시 개수로 조절
+    clock = new THREE.Clock();
+    const cityCount = 3; // 원하는 도시 개수로 조절
     const citySize = 100; // 원하는 도시 크기로 조절
     const cityInfo = [];
     const Xlist = [20, -10, -19];
@@ -114,40 +121,95 @@ export function createScene() {
     myCharacter = new MyCharacter(scene, renderer, camera);
     camera.position.set(-2, 4, 10);
 
-    scene.background = new THREE.CubeTextureLoader()
-      .setPath("./Model/Background/")
-      .load([
-        "clouds1_east.bmp",
-        "clouds1_west.bmp",
-        "clouds1_up.bmp",
-        "clouds1_down.bmp",
-        "clouds1_north.bmp",
-        "clouds1_south.bmp",
-      ]);
+    // scene.background = new THREE.CubeTextureLoader()
+    //   .setPath("./Model/Background/")
+    //   .load([
+    //     "clouds1_east.bmp",
+    //     "clouds1_west.bmp",
+    //     "clouds1_up.bmp",
+    //     "clouds1_down.bmp",
+    //     "clouds1_north.bmp",
+    //     "clouds1_south.bmp",
+    //   ]);
+    initSky();
 
     setupLights(scene);
 
     // 여기에 다른 초기화 로직 추가 (도시 객체를 이용하여 씬 초기 상태 설정)
   }
 
+  function initSky() {
+    let sky = new Sky();
+    console.log(sky.position);
+    sky.position.set(100.0, 0.0, 100.0);
+    sky.scale.setScalar(500);
+    scene.add(sky);
+
+    let sun = new THREE.Vector3();
+
+    /// GUI
+
+    const effectController = {
+      turbidity: 10,
+      rayleigh: 3,
+      mieCoefficient: 0.005,
+      mieDirectionalG: 0.9,
+      elevation: 5,
+      azimuth: 180,
+      exposure: renderer.toneMappingExposure,
+    };
+
+    function guiChanged() {
+      const uniforms = sky.material.uniforms;
+      uniforms["turbidity"].value = effectController.turbidity;
+      uniforms["rayleigh"].value = effectController.rayleigh;
+      uniforms["mieCoefficient"].value = effectController.mieCoefficient;
+      uniforms["mieDirectionalG"].value = effectController.mieDirectionalG;
+
+      const phi = THREE.MathUtils.degToRad(90 - effectController.elevation);
+      const theta = THREE.MathUtils.degToRad(effectController.azimuth);
+
+      sun.setFromSphericalCoords(1, phi, theta);
+
+      console.log(sun);
+      uniforms["sunPosition"].value.copy(sun);
+
+      renderer.toneMappingExposure = effectController.exposure;
+      renderer.render(scene, camera);
+    }
+
+    const gui = new GUI();
+
+    gui.add(effectController, "turbidity", 0.0, 20.0, 0.1).onChange(guiChanged);
+    gui.add(effectController, "rayleigh", 0.0, 4, 0.001).onChange(guiChanged);
+    gui
+      .add(effectController, "mieCoefficient", 0.0, 0.1, 0.001)
+      .onChange(guiChanged);
+    gui
+      .add(effectController, "mieDirectionalG", 0.0, 1, 0.001)
+      .onChange(guiChanged);
+    gui.add(effectController, "elevation", 0, 90, 0.1).onChange(guiChanged);
+    gui.add(effectController, "azimuth", -180, 180, 0.1).onChange(guiChanged);
+    gui.add(effectController, "exposure", 0, 1, 0.0001).onChange(guiChanged);
+
+    guiChanged();
+  }
+
   function setupLights() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
 
-    const directionalLight1 = new THREE.DirectionalLight(0xffcc00, 0.6);
-    directionalLight1.position.set(0, 1, 0);
-
-    const shadowLight = new THREE.DirectionalLight(0xf0f0f0, 3);
-    shadowLight.position.set(800, 700, 800);
+    shadowLight = new THREE.DirectionalLight(0xf0f0f0, 3);
+    shadowLight.position.z = 100;
     shadowLight.target.position.set(0, 0, 0);
 
     shadowLight.castShadow = true;
     shadowLight.shadow.mapSize.width = 1024;
     shadowLight.shadow.mapSize.height = 1024;
-    shadowLight.shadow.camera.top = 100;
-    shadowLight.shadow.camera.right = 350;
-    shadowLight.shadow.camera.bottom = -350;
-    shadowLight.shadow.camera.left = -350;
-    shadowLight.shadow.camera.near = 400;
+    shadowLight.shadow.camera.top = 50;
+    shadowLight.shadow.camera.right = 150;
+    shadowLight.shadow.camera.bottom = -200;
+    shadowLight.shadow.camera.left = -150;
+    shadowLight.shadow.camera.near = 300;
     shadowLight.shadow.camera.far = 1500;
     shadowLight.shadow.radius = 5;
     const shadowCameraHelper = new THREE.CameraHelper(
@@ -155,16 +217,7 @@ export function createScene() {
     );
     scene.add(shadowCameraHelper);
 
-    const directionalLight3 = new THREE.DirectionalLight(0xff00cc, 0.6);
-    directionalLight3.position.set(0, 1, 0);
-
-    scene.add(
-      ambientLight,
-      directionalLight1,
-      shadowLight,
-      shadowLight.target,
-      directionalLight3
-    );
+    scene.add(ambientLight, shadowLight, shadowLight.target);
   }
 
   function updateInfoWindow(newCityInfo) {
@@ -189,6 +242,7 @@ export function createScene() {
   // 렌더링 루프 함수
   function render() {
     requestAnimationFrame(render);
+    animate();
 
     // 렌더링 전에 정보창 업데이트
     const meshCount = scene.children.length;
@@ -377,7 +431,7 @@ export function createScene() {
   function animateCamera() {
     var startTimestamp = null;
 
-    function animate(timestamp) {
+    function cameraMove(timestamp) {
       if (!startTimestamp) startTimestamp = timestamp;
 
       var progress = (timestamp - startTimestamp) / animationDuration;
@@ -385,15 +439,13 @@ export function createScene() {
       if (progress < 1) {
         // 이동 중인 경우
         camera.position.lerpVectors(cameraPosition, targetPosition, progress);
-        requestAnimationFrame(animate);
+        requestAnimationFrame(cameraMove);
       } else {
         // 애니메이션 완료
         camera.position.copy(targetPosition);
       }
-      // 렌더링 및 다른 업데이트 로직
-      render();
     }
-    requestAnimationFrame(animate);
+    requestAnimationFrame(cameraMove);
   }
 
   pauseBGMButton.onclick = function () {
@@ -764,7 +816,14 @@ export function createScene() {
     return null;
   }
 
-  function animate() {}
+  function animate(time) {
+    console.log("실행은 되니");
+    angle += 0.001;
+
+    // directionalLight의 위치 업데이트
+    shadowLight.position.x = radius * Math.cos(angle);
+    shadowLight.position.y = radius * Math.sin(angle);
+  }
 
   // 시작 함수
   function start() {
