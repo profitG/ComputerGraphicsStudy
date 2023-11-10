@@ -1,220 +1,233 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title>Mini Metro</title>
 
-    <meta charset="utf-8">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@800&display=swap" rel="stylesheet">
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Stick+No+Bills:wght@800&display=swap"
+      rel="stylesheet"
+    />
 
     <style>
-        body {
-            background-color: #000000;
-            color: #FFFFFF;
-            margin: 0;
-            overflow: hidden; /* Hide scrollbar */
-        }
+      body {
+        background-color: #000000;
+        color: #ffffff;
+        margin: 0;
+        overflow: hidden; /* Hide scrollbar */
+      }
     </style>
 
     <style>
-        #title {
-            text-align: center;
-            margin-top: 40px;
-            color: #ffffff;
-            font-size: 100px;
-            font-family: "Stick No Bills", sans-serif;
-            width: 100%;
-        }
+      #title {
+        text-align: center;
+        margin-top: 40px;
+        color: #ffffff;
+        font-size: 100px;
+        font-family: "Stick No Bills", sans-serif;
+        width: 100%;
+      }
 
-        #button {
-            text-align: center;
-            margin-top: 40px;
-            width: 100%;
-        }
+      #button {
+        text-align: center;
+        margin-top: 40px;
+        width: 100%;
+      }
 
-        .button {
-            font-family: "Stick No Bills", sans-serif;
-            text-align: center;
-            width: 40%;
-            font-size: 40px;
-            text-decoration: none;
-            margin-left: 16px;
-            margin-right: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s, transform 0.3s;
-        }
+      .button {
+        font-family: "Stick No Bills", sans-serif;
+        text-align: center;
+        width: 40%;
+        font-size: 40px;
+        text-decoration: none;
+        margin-left: 16px;
+        margin-right: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s, transform 0.3s;
+      }
 
-        .button:hover {
-            background-color: red;
-            color: white;
-            transform: scale(1.20); /* 호버 시 버튼 크기 확대 */
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.6); /* 그림자 효과 추가 */
-        }
+      .button:hover {
+        background-color: red;
+        color: white;
+        transform: scale(1.2); /* 호버 시 버튼 크기 확대 */
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.6); /* 그림자 효과 추가 */
+      }
 
-        .button:active {
-            background-color: #1961b4;
-            transform: translateY(4px);
-        }
-
-        
+      .button:active {
+        background-color: #1961b4;
+        transform: translateY(4px);
+      }
     </style>
 
     <style>
-        #container {
-            position: relative;
-            opacity: 1.0;
-        }
+      #container {
+        position: relative;
+        opacity: 1;
+      }
 
-        video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            transform: scale(1.2);
-            transition: opacity 1s ease; /* Add transition effect for opacity */
-        }
+      video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        transform: scale(1.2);
+        transition: opacity 1s ease; /* Add transition effect for opacity */
+      }
 
-        .front {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+      .front {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
 
-        .cross-fade-out {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-    
-        .cross-fade-in {
-            opacity: 1;
-            transition: opacity 1s ease-in-out;
-        }
-        
+      .cross-fade-out {
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+      }
+
+      .cross-fade-in {
+        opacity: 1;
+        transition: opacity 1s ease-in-out;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="front">
-        <br />
-        <div id="title"> <span>MINI METRO CITY</span> </div>
-        <div id="button">
-            <input id="1" type="button" value="GAME START" class="button"><br><br>
-            <input id="2" type="button" value="Setting" class="button"><br><br>
-            <input id="3" type="button" value="Exit" class="button"><br><br>
-        </div>
-        <script>
-            function crossFadeOut(element) {
-                element.classList.add("cross-fade-out");
-            }
-        
-            function crossFadeIn(element) {
-                element.classList.remove("cross-fade-out");
-                element.classList.add("cross-fade-in");
-                setTimeout(() => {
-                    element.classList.remove("cross-fade-in");
-                }, 1000); // 크로스 페이딩이 끝난 후 1초 뒤에 효과 제거
-            }
+      <br />
+      <div id="title"><span>MINI METRO CITY</span></div>
+      <div id="button">
+        <input
+          id="1"
+          type="button"
+          value="GAME START"
+          class="button"
+        /><br /><br />
+        <input
+          id="2"
+          type="button"
+          value="Setting"
+          class="button"
+        /><br /><br />
+        <input id="3" type="button" value="Exit" class="button" /><br /><br />
+      </div>
+      <script>
+        function crossFadeOut(element) {
+          element.classList.add("cross-fade-out");
+        }
 
-                // check audio is playing
-                var playing = true;
-        
-                // click sound setting
-                const clickSound = new Audio();
-                clickSound.src = "./BGM/Button_Click.mp3";
-                clickSound.volume = 0.3;
-        
-                // hover sound setting
-                const hoverSound = new Audio();
-                hoverSound.src = "./BGM/Mouse_Hover.mp3";
-                hoverSound.volume = 1;
+        function crossFadeIn(element) {
+          element.classList.remove("cross-fade-out");
+          element.classList.add("cross-fade-in");
+          setTimeout(() => {
+            element.classList.remove("cross-fade-in");
+          }, 1000); // 크로스 페이딩이 끝난 후 1초 뒤에 효과 제거
+        }
 
-                clickSound.preload = "auto";
-                hoverSound.preload = "auto";
-        
-                // game start function
-                var game_start = function () {
-                    // Cross fade out the current front div
-                    crossFadeOut(document.querySelector('.front'));
+        // check audio is playing
+        var playing = true;
 
-                    // Wait for the cross-fading effect to complete
-                    setTimeout(function () {
-                        // Change the video source to the new one
-                        document.querySelector('video').src = './new_background_video.mp4';
+        // click sound setting
+        const clickSound = new Audio();
+        clickSound.src = "./BGM/Button_Click.mp3";
+        clickSound.volume = 0.3;
 
-                        // Play the click sound
-                        clickSound.play();
+        // hover sound setting
+        const hoverSound = new Audio();
+        hoverSound.src = "./BGM/Mouse_Hover.mp3";
+        hoverSound.volume = 1;
 
-                        // Cross fade in the new front div
-                        crossFadeIn(document.querySelector('.front'));
+        clickSound.preload = "auto";
+        hoverSound.preload = "auto";
 
-                        // Redirect to the game start page
-                        setTimeout(function () {
-                            window.open('./index.html', '_self');
-                        }, 1000); // Adjust the timeout according to the cross-fading duration
-                    }, 1000); // Adjust the timeout according to the cross-fading duration
-                };
-        
-                // how to play function
-                var how_to_play = function () {
-                    window.open('./html/howtoplay.html', '_self');
-                };
-        
-                // exit function
-                var exit = function () {
-                    window.close();
-                };
-        
-                // get button id
-                const btnStart = document.getElementById("1");
-                const btnHowToPlay = document.getElementById("2");
-                const btnExit = document.getElementById("3");
-        
-                // start button
-                btnStart.onclick = function () {
-                    game_start();
-                }
-        
-                // how to play button
-                btnHowToPlay.onclick = function () {
-                    clickSound.play();
-                    clickSound.addEventListener("ended", how_to_play);
-                }
-        
-                // exit button
-                btnExit.onclick = function () {
-                    clickSound.play();
-                    clickSound.addEventListener("ended", exit);
-                }
-        
-                // hover sound for buttons
-                btnStart.addEventListener("mouseenter", function () {
-                    hoverSound.currentTime = 0; // Reset audio to start if already playing
-                    hoverSound.play();
-                });
-        
-                btnHowToPlay.addEventListener("mouseenter", function () {
-                    hoverSound.currentTime = 0; // Reset audio to start if already playing
-                    hoverSound.play();
-                });
-        
-                btnExit.addEventListener("mouseenter", function () {
-                    hoverSound.currentTime = 0; // Reset audio to start if already playing
-                    hoverSound.play();
-                });
-                
-        </script>
+        // game start function
+        var game_start = function () {
+          // Cross fade out the current front div
+          crossFadeOut(document.querySelector(".front"));
+
+          // Wait for the cross-fading effect to complete
+          setTimeout(function () {
+            // Change the video source to the new one
+            document.querySelector("video").src = "./new_background_video.mp4";
+
+            // Play the click sound
+            clickSound.play();
+
+            // Cross fade in the new front div
+            crossFadeIn(document.querySelector(".front"));
+
+            // Redirect to the game start page
+            setTimeout(function () {
+              window.open("./index1110.html", "_self");
+            }, 1000); // Adjust the timeout according to the cross-fading duration
+          }, 1000); // Adjust the timeout according to the cross-fading duration
+        };
+
+        // how to play function
+        var how_to_play = function () {
+          window.open("./html/howtoplay.html", "_self");
+        };
+
+        // exit function
+        var exit = function () {
+          window.close();
+        };
+
+        // get button id
+        const btnStart = document.getElementById("1");
+        const btnHowToPlay = document.getElementById("2");
+        const btnExit = document.getElementById("3");
+
+        // start button
+        btnStart.onclick = function () {
+          game_start();
+        };
+
+        // how to play button
+        btnHowToPlay.onclick = function () {
+          clickSound.play();
+          clickSound.addEventListener("ended", how_to_play);
+        };
+
+        // exit button
+        btnExit.onclick = function () {
+          clickSound.play();
+          clickSound.addEventListener("ended", exit);
+        };
+
+        // hover sound for buttons
+        btnStart.addEventListener("mouseenter", function () {
+          hoverSound.currentTime = 0; // Reset audio to start if already playing
+          hoverSound.play();
+        });
+
+        btnHowToPlay.addEventListener("mouseenter", function () {
+          hoverSound.currentTime = 0; // Reset audio to start if already playing
+          hoverSound.play();
+        });
+
+        btnExit.addEventListener("mouseenter", function () {
+          hoverSound.currentTime = 0; // Reset audio to start if already playing
+          hoverSound.play();
+        });
+      </script>
     </div>
     <div id="container">
-        <video id = "video" src="./Background/SimCity (2013) CG Trailer.mp4" autoplay loop controls> </video>
+      <video
+        id="video"
+        src="./Background/SimCity (2013) CG Trailer.mp4"
+        autoplay
+        loop
+        controls
+      ></video>
     </div>
-</body>
-
+  </body>
 </html>

@@ -48,7 +48,7 @@ export function createBuilding(scene, x, y, buildingList) {
     buildingMesh.position.set(roundX, 0.0001, roundY);
 
     // 씬에 빌딩 메쉬 추가
-    scene.add(buildingMesh);
+    //scene.add(buildingMesh);
 
     // console.log(roundX, roundY, "위치에 빌딩 생성됨");
 

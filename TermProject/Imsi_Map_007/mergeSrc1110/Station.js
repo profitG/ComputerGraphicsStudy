@@ -63,7 +63,7 @@ export function createStation(scene, x, y, StationList, index) {
         model.rotation.y = Math.PI;
         model.position.set(roundX, 0.1, roundY);
         models.push(model);
-        scene.add(model);
+        //scene.add(model);
 
         modelsLoaded++;
 
