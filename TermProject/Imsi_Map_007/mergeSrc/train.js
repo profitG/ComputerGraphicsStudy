@@ -34,6 +34,7 @@ export class Train {
         trainModel.rotation.x = Math.PI / 180;
         trainModel.rotation.y = Math.PI / 2;
         trainModel.scale.set(1, 1, 1);
+        setupLights(this.scene, trainModel);
         this.scene.add(trainModel);
 
         this.trainModel = trainModel; // trainModel을 Train 클래스 속성으로 설정
@@ -164,4 +165,23 @@ function updateInfoHTML(info) {
     InfoWrapper.appendChild(HTML);
     stationCounter++;
   }
+}
+
+function setupLights(scene, trainModel) {
+  const light = new THREE.PointLight( 0xffffff, 100, 100 );
+  light.position.copy(trainModel.position);
+  light.position.y = 10;
+  light.castShadow = true; // default false
+  scene.add( light );
+
+  //Set up shadow properties for the light
+  light.shadow.mapSize.width = 512; // default
+  light.shadow.mapSize.height = 512; // default
+  light.shadow.camera.near = 0.5; // default
+  light.shadow.camera.far = 50; // default
+
+  //Create a helper for the shadow camera (optional)
+  const helper = new THREE.CameraHelper( light.shadow.camera );
+  scene.add( helper );
+  //trainModel.add(light); // 열차 모델의 자식으로 추가
 }

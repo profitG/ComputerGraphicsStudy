@@ -33,6 +33,7 @@ export class STREETLIGHT{
 
             this._model.position.set(this._roundX, 13.5, this._roundY);
             // 어디에 있는지에 따라 회전
+            setupLights(this._scene, houseMesh);
             switch(this._index){
                 case 0:
                     this._model.rotation.y = Math.PI/4;
@@ -54,4 +55,23 @@ export class STREETLIGHT{
             this._scene.add(this._model);
         });
     }
+}
+
+function setupLights(scene, trainModel) {
+  const light = new THREE.PointLight( 0xffffff, 100, 100 );
+  light.position.copy(trainModel.position);
+  light.position.y = 10;
+  light.castShadow = true; // default false
+  scene.add( light );
+
+  //Set up shadow properties for the light
+  light.shadow.mapSize.width = 512; // default
+  light.shadow.mapSize.height = 512; // default
+  light.shadow.camera.near = 0.5; // default
+  light.shadow.camera.far = 50; // default
+
+  //Create a helper for the shadow camera (optional)
+  const helper = new THREE.CameraHelper( light.shadow.camera );
+  scene.add( helper );
+  //trainModel.add(light); // 열차 모델의 자식으로 추가
 }
