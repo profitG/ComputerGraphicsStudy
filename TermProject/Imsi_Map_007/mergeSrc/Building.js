@@ -5,13 +5,18 @@ import { GLTFLoader } from "../../examples/jsm/loaders/GLTFLoader.js";
 // 빌딩 모델의 경로와 크기 정보
 const buildingModels = [
   {
-    path: "./Model/low_poly_building/scene.gltf",
-    scale: 0.45,
+    path: "./LowpolyModel/city_building/scene.gltf",// 제일 높은 모델
+    scale: {x: 0.003, y: 0.0025, z: 0.002},
   },
-  { path: "./Model/city_police_station/scene.gltf", scale: 0.3 },
+  { path: "./LowpolyModel/modern_apartment/scene.gltf", //
+  scale: {x: 0.5, y: 0.7, z: 0.5} },
+  {path: "./LowpolyModel/whitehall_building/scene.gltf",  //주황 모델
+  scale: {x: 0.2, y: 0.3, z: 0.4}},
+  {path: "./LowpolyModel/storefront_lowpoly_house/scene.gltf", // 빨간 모델
+  scale: { x: 3.5, y: 5, z: 3.5}},
 ];
 
-export function createBuilding(scene, x, y, buildingList) {
+export function createBuilding(scene, x, y, buildingList, modelIndex) {
   // 정수로 위치 조정
   const roundX = Math.round(x);
   const roundY = Math.round(y);
@@ -25,7 +30,7 @@ export function createBuilding(scene, x, y, buildingList) {
 
   // 랜덤한 빌딩 모델 선택
   const randomModelIndex = Math.floor(Math.random() * buildingModels.length);
-  const selectedModel = buildingModels[randomModelIndex];
+  const selectedModel = buildingModels[modelIndex];
 
   // 빌딩 모델 로드
   const loader = new GLTFLoader();
@@ -41,9 +46,9 @@ export function createBuilding(scene, x, y, buildingList) {
     // 빌딩 메쉬의 위치, 회전, 크기 설정
     buildingMesh.rotation.x = -Math.PI / 180;
     buildingMesh.scale.set(
-      selectedModel.scale,
-      selectedModel.scale,
-      selectedModel.scale
+      selectedModel.scale.x,
+      selectedModel.scale.y,
+      selectedModel.scale.z
     );
     buildingMesh.position.set(roundX, 0.0001, roundY);
 

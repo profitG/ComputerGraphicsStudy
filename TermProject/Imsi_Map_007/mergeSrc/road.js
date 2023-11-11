@@ -13,15 +13,23 @@ export function createRoad(scene, x, y) {
     const roadTexture = textureLoader.load(texturePath);
 
     // 도로 메쉬 생성
-    const geometry = new THREE.PlaneGeometry(1, 1); // Assuming a plane geometry for the road
-    const material = new THREE.MeshBasicMaterial({ map: roadTexture });
+    const geometry = new THREE.PlaneGeometry(8, 10); // Assuming a plane geometry for the road
+    //const material = new THREE.MeshBasicMaterial({ map: roadTexture });
+    const material = new THREE.MeshStandardMaterial({
+        color: 0x808080,
+        roughness: 0.8,
+        metalness: 0.1,
+        side: THREE.DoubleSide, // 이 부분을 추가
+        transparent: true, // 추가
+        opacity: 1.0, // 추가
+    });
     const roadMesh = new THREE.Mesh(geometry, material);
 
     // 도로 메쉬의 위치, 회전 설정
     roadMesh.rotation.x = -Math.PI / 2;
     roadMesh.renderOrder = 1;
     roadMesh.position.set(Math.round(roundX), 0.05, Math.round(roundY));
-
+    roadMesh.receiveShadow = true;
     // 맵 객체 여부를 나타내는 속성 추가
     roadMesh.isMapObject = true;
 

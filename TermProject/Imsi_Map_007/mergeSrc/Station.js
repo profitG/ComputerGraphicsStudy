@@ -35,7 +35,7 @@ export function createStation(scene, x, y, StationList) {
   scene.add(ConnectionLine);
 
   const modelPaths = [
-    "./Model/minecraft_gare__train_station/scene.gltf",
+    "./LowpolyModel/railway_station/scene.gltf",
     // Add more model paths as needed
   ];
 
@@ -57,10 +57,10 @@ export function createStation(scene, x, y, StationList) {
             child.castShadow = true;
           }
         });
-        model.scale.set(5, 3.5, 5);
+        model.scale.set(40, 40, 40);
         model.rotation.x = Math.PI / 180;
-        model.rotation.y = Math.PI;
-        model.position.set(roundX, 0.1, roundY);
+        //model.rotation.y = Math.PI;
+        model.position.set(roundX, 23, roundY);
         models.push(model);
         scene.add(model);
 

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Railway Station
+* source:	https://sketchfab.com/3d-models/railway-station-5602860f0d3547d5a8349ea97be8f9f9
+* author:	senya.frozenov (https://sketchfab.com/senya.frozenov)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Railway Station" (https://sketchfab.com/3d-models/railway-station-5602860f0d3547d5a8349ea97be8f9f9) by senya.frozenov (https://sketchfab.com/senya.frozenov) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

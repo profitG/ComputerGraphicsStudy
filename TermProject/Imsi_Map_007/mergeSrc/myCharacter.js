@@ -97,10 +97,10 @@ export class MyCharacter {
     ) {
       if (this._pressedKeys["shift"]) {
         this._currentAnimationAction = this._animationMap["Armature|Run"]; // Run
-        this._speed = 10;
+        this._speed = 20;
       } else {
         this._currentAnimationAction = this._animationMap["Armature|Walk"]; // Walk
-        this._speed = 5;
+        this._speed = 8;
       }
     } else {
       this._currentAnimationAction = this._animationMap["Armature|Idle"]; // Idle

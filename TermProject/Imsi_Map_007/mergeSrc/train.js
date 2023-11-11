@@ -24,7 +24,7 @@ export class Train {
 
     // 이제 Promise를 사용하여 GLTF 모델 로딩을 대기합니다.
     const loadModel = new Promise((resolve) => {
-      loader.load("./Model/lowpoly_3d_train/scene.gltf", (gltf) => {
+      loader.load("./LowpolyModel/train/scene.gltf", (gltf) => {
         const trainModel = gltf.scene;
         trainModel.traverse((child) => {
           if (child instanceof THREE.Mesh) {

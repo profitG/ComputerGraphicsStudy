@@ -15,6 +15,10 @@ import { createBuilding } from "./Building.js";
 import { createHouse } from "./house.js";
 import { createStation } from "./Station.js";
 import { Train } from "./train.js";
+import { TREE } from "./Tree.js";
+import { STREETLIGHT } from "./StreetLight.js";
+import {FLOWER} from "./Flower.js";
+import { BENCH } from "./Bench.js";
 
 /**
  * 3D 시뮬레이션의 주요 씬을 생성합니다.
@@ -26,6 +30,8 @@ const HouseList = [];
 const StationList = [];
 const StationList_ = [];
 const NPCList = [];
+const treeList = [];
+const streetLight = [];
 
 var myCharacter;
 var cameraPosition = new THREE.Vector3(-2, 4, 10);
@@ -68,32 +74,61 @@ export function createScene() {
     const cityCount = 3; // 원하는 도시 개수로 조절
     const citySize = 100; // 원하는 도시 크기로 조절
     const cityInfo = [];
-    const Xlist = [20, -10, -19];
-    const Ylist = [13, -20, 18];
+    const Xlist = [-30, -40, -40];
+    const Ylist = [-40, -10, 40];
     for (let i = 0; i < cityCount; i++) {
       for (let j = 0; j < cityCount; j++) {
-        const offsetX = i * citySize * 1 * 1.05; // 각 도시의 X 오프셋 조절
-        const offsetY = j * citySize * 1 * 1.05; // 각 도시의 Y 오프셋 조절
+        const offsetX = i * citySize * 1 * 1.02; // 각 도시의 X 오프셋 조절
+        const offsetY = j * citySize * 1 * 1.02; // 각 도시의 Y 오프셋 조절
         if (j < 2 && i < 2) {
-          createStation(scene, offsetX, offsetY, StationList);
+          createStation(scene, offsetX + 30, offsetY - 30, StationList);
           for (let k = 0; k < 3; k++) {
             createBuilding(
               scene,
               offsetX + Xlist[k],
               offsetY + Ylist[k],
-              buildingList
+              buildingList,
+              k // 빌딩 인덱스
             );
           }
-        }
 
-        // for (let k = 0; k < 2; k++) {
-        //   createBuilding(
-        //     scene,
-        //     offsetX + Xlist[k],
-        //     offsetY + Ylist[k],
-        //     buildingList
-        //   );
-        // }
+          // 가로등 생성
+          createStreetLights(offsetX + 42, offsetY - 26, 0); // station옆
+          createStreetLights(offsetX + 15, offsetY - 26, 0); // station 옆
+          createStreetLights(offsetX - 30, offsetY + 35, 1); // 주황 건물 옆
+          createStreetLights(offsetX - 33, offsetY - 8, 0); // 젤 작은 건물 옆
+          createStreetLights(offsetX - 28, offsetY - 47, 2); // 젤 높은 건물 옆
+
+          // station 뒤 나무 생성
+          for(let k = 0; k < 5; k++){
+            createTrees(offsetX + 20 + 5 * k , offsetY - 40);
+          }
+
+          // 빌딩 뒤 나무 생성
+          for(let k = 0; k < 3; k++){
+            createTrees(offsetX - 40, offsetY - 45 + 5 * k);
+          }
+          createTrees(offsetX - 47, offsetY + 7);
+
+
+
+
+          // 꽃과 벤치 생성
+          createBenches(offsetX, offsetY + 45, 0);
+          createFlowers(offsetX - 7, offsetY + 45);
+          createFlowers(offsetX + 7, offsetY + 45);
+
+          createBenches(offsetX, offsetY - 45, 1);
+          createFlowers(offsetX - 7, offsetY - 45);
+          createFlowers(offsetX + 7, offsetY - 45);
+
+          createBenches(offsetX - 47, offsetY, 2);
+          createFlowers(offsetX - 45, offsetY);
+          
+          
+
+          
+        }
         const cityObject = createCityObject(citySize);
 
         const infoContainer = document.getElementById("info-panel");
@@ -121,21 +156,29 @@ export function createScene() {
     myCharacter = new MyCharacter(scene, renderer, camera);
     camera.position.set(-2, 4, 10);
 
-    // scene.background = new THREE.CubeTextureLoader()
-    //   .setPath("./Model/Background/")
-    //   .load([
-    //     "clouds1_east.bmp",
-    //     "clouds1_west.bmp",
-    //     "clouds1_up.bmp",
-    //     "clouds1_down.bmp",
-    //     "clouds1_north.bmp",
-    //     "clouds1_south.bmp",
-    //   ]);
     initSky();
 
     setupLights(scene);
 
     // 여기에 다른 초기화 로직 추가 (도시 객체를 이용하여 씬 초기 상태 설정)
+  }
+
+  function createTrees(x, y){
+    const TreeInstance = new TREE(scene, x, y);
+    treeList.push(TreeInstance);
+  }
+
+  function createStreetLights(x, y, k){
+    const StreetLightInstance = new STREETLIGHT(scene, x, y, k);
+    streetLight.push(StreetLightInstance);
+  }
+
+  function createFlowers(x, y){
+    const FlowerInstance = new FLOWER(scene, x, y);
+  }
+
+  function createBenches(x, y, k){
+    const BenchInstance = new BENCH(scene, x, y, k);
   }
 
   function initSky() {
@@ -203,8 +246,8 @@ export function createScene() {
     shadowLight.target.position.set(0, 0, 0);
 
     shadowLight.castShadow = true;
-    shadowLight.shadow.mapSize.width = 1024;
-    shadowLight.shadow.mapSize.height = 1024;
+    shadowLight.shadow.mapSize.width = 3000;
+    shadowLight.shadow.mapSize.height = 3000;
     shadowLight.shadow.camera.top = 50;
     shadowLight.shadow.camera.right = 150;
     shadowLight.shadow.camera.bottom = -200;
