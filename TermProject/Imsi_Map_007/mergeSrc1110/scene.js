@@ -159,9 +159,9 @@ export function createScene() {
   }
 
   function setupLights() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    const ambientLight = new THREE.AmbientLight(0x000000, 0.6);
 
-    shadowLight = new THREE.DirectionalLight(0xf0f0f0, 3);
+    shadowLight = new THREE.DirectionalLight(0x000000, 3);
     shadowLight.position.z = 100;
     shadowLight.target.position.set(0, 0, 0);
 

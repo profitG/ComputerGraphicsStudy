@@ -50,6 +50,8 @@ export function createHouse(scene, x, y, HouseList) {
     );
     houseMesh.position.set(roundX, 0.1, roundY);
 
+    setupLights(scene, houseMesh);
+
     // 씬에 하우스 메쉬 추가
     scene.add(houseMesh);
 
@@ -99,3 +101,23 @@ function updateHouseInfoHTML(HouseList) {
     houseInfoWrapper.appendChild(houseHTML);
   }
 }
+
+function setupLights(scene, trainModel) {
+  const light = new THREE.PointLight( 0xffffff, 100, 100 );
+  light.position.copy(trainModel.position);
+  light.position.y = 10;
+  light.castShadow = true; // default false
+  scene.add( light );
+
+  //Set up shadow properties for the light
+  light.shadow.mapSize.width = 512; // default
+  light.shadow.mapSize.height = 512; // default
+  light.shadow.camera.near = 0.5; // default
+  light.shadow.camera.far = 50; // default
+
+  //Create a helper for the shadow camera (optional)
+  const helper = new THREE.CameraHelper( light.shadow.camera );
+  scene.add( helper );
+  //trainModel.add(light); // 열차 모델의 자식으로 추가
+}
+

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Low Poly Style Subway Station Section
+* source:	https://sketchfab.com/3d-models/low-poly-style-subway-station-section-7645920781ba45d68eeff1ab4d053a03
+* author:	TreDè (https://sketchfab.com/luigi_disilvestre)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Low Poly Style Subway Station Section" (https://sketchfab.com/3d-models/low-poly-style-subway-station-section-7645920781ba45d68eeff1ab4d053a03) by TreDè (https://sketchfab.com/luigi_disilvestre) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
