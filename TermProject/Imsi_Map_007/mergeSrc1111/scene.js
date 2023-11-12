@@ -71,6 +71,7 @@ let angle = 0;
 let radius = 700;
 let sky;
 let uniforms;
+let sunset = 0;
 const effectController = {
   turbidity: 10,
   rayleigh: 3,
@@ -140,11 +141,13 @@ export function createScene() {
           );
         }
         // 가로등 생성
-        createStreetLights(offsetX + 42, offsetY - 26, 0); // station옆
-        createStreetLights(offsetX + 15, offsetY - 26, 0); // station 옆
-        createStreetLights(offsetX - 30, offsetY + 35, 1); // 주황 건물 옆
-        createStreetLights(offsetX - 33, offsetY - 8, 0); // 젤 작은 건물 옆
-        createStreetLights(offsetX - 28, offsetY - 47, 2); // 젤 높은 건물 옆
+        if (j == 0 && i == 0) {
+          createStreetLights(offsetX + 42, offsetY - 26, 0); // station옆
+          createStreetLights(offsetX + 15, offsetY - 26, 0); // station 옆
+          createStreetLights(offsetX - 30, offsetY + 35, 1); // 주황 건물 옆
+          createStreetLights(offsetX - 33, offsetY - 8, 0); // 젤 작은 건물 옆
+          createStreetLights(offsetX - 28, offsetY - 47, 2); // 젤 높은 건물 옆
+        }
 
         // station 뒤 나무 생성
         for (let k = 0; k < 5; k++) {
@@ -314,6 +317,19 @@ export function createScene() {
       radius * Math.sin(angle),
       0
     );
+    if (angle % (Math.PI * 2) > Math.PI) {
+      // 해가 지면
+      if (sunset == 0) {
+        sunset = 1;
+        streetLight[1]._setupLights();
+      }
+    } else {
+      //해가 뜨면
+      if (sunset == 1) {
+        sunset = 0;
+        streetLight[1]._turnOffLights();
+      }
+    }
 
     uniforms["sunPosition"].value.copy(sun2);
   }
@@ -1423,6 +1439,7 @@ export function createScene() {
     // directionalLight의 위치 업데이트
     shadowLight.position.x = radius * Math.cos(angle);
     shadowLight.position.y = radius * Math.sin(angle);
+    shadowLight.target.position.set(0, 0, 0);
     if (sky !== undefined) {
       moveSunUp(angle);
     }

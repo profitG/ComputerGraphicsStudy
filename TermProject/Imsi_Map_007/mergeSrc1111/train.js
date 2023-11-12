@@ -220,8 +220,8 @@ function setupLights(scene, trainModel) {
   light.shadow.camera.far = 4; // default
 
   //Create a helper for the shadow camera (optional)
-  const helper = new THREE.CameraHelper( light.shadow.camera );
-  scene.add( helper );
+  // const helper = new THREE.CameraHelper( light.shadow.camera );
+  // scene.add( helper );
   //trainModel.add(light); // 열차 모델의 자식으로 추가
   trainModel.add(light);
 }
